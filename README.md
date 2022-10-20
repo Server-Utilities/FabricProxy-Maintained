@@ -1,14 +1,14 @@
-# FabricProxy-Legacy
+# FabricProxy (Maintained)
 
-Fabric mod for support forward player data from proxy
+[FabricProxy](https://github.com/OKTW-Network/FabricProxy) is a 
+Fabric mod that adds support for the forwarding of player data across a
+Minecraft server proxy. These proxies can be Bungeecord (and forks) and / or
+Velocity (and forks).
 
-Inspired by [FabricProxy], this mod is the counterpart to [FabricProxy-Lite]. It allows to connect your Fabric server to
-a BungeeCord, Waterfall or Velocity legacy mode server.
+I, [Quaintified](https://github.com/Quaintified), intend on progressing this
+mod in a continuous state throughout both Minecraft Snapshot-Season and
+Released-Season.
 
-## Disclaimer
-
-I'm not 100% sure what I'm doing, it just works; I would appreciate pull requests.
-
-[FabricProxy]: https://github.com/OKTW-Network/FabricProxy
-
-[FabricProxy-Lite]: https://github.com/OKTW-Network/FabricProxy-Lite
+## Original FabricProxy Mods
+> * [FabricProxy](https://github.com/OKTW-Network/FabricProxy)
+> * [FabricProxy-Lite](https://github.com/OKTW-Network/FabricProxy-Lite)
