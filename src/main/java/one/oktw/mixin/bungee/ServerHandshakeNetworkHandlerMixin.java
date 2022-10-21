@@ -19,6 +19,7 @@ import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import tv.quaint.Manager;
 import tv.quaint.storage.SelfConfig;
 import tv.quaint.utils.SimpleUtils;
 
@@ -54,8 +55,7 @@ public class ServerHandshakeNetworkHandlerMixin {
                 }
             } else {
                 // no extra information found in the address, disconnecting player:
-                Text disconnectMessage = MutableText.of(new LiteralTextContent(
-                        SimpleUtils.alterColor(SelfConfig.getKickMessage())));
+                Text disconnectMessage = Text.of(SimpleUtils.alterColor(Manager.getSelfConfig().getKickMessage()));
                 connection.send(new LoginDisconnectS2CPacket(disconnectMessage));
                 connection.disconnect(disconnectMessage);
             }

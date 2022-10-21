@@ -2,33 +2,30 @@ package tv.quaint.storage;
 
 import de.leonhard.storage.Config;
 import lombok.Getter;
-import tv.quaint.storage.resources.FlatFileResource;
+import tv.quaint.Manager;
+import tv.quaint.storage.resources.flat.simple.SimpleConfiguration;
 
 import java.io.File;
 
-public class SelfConfig extends FlatFileResource<Config> {
+public class SelfConfig extends SimpleConfiguration {
     @Getter
     private static final File modsFolder = new File(System.getProperty("user.dir"), "mods" + File.separator);
     @Getter
     private static final File selfFolder = new File(getModsFolder(), "FabricProxy" + File.separator);
 
-    private static SelfConfig instance;
-
-    public static SelfConfig getInstance() {
-        if (instance == null) new SelfConfig();
-        return instance;
-    }
-
     public SelfConfig() {
-        super(Config.class, "config.yml", getSelfFolder(), true);
-        instance = this;
+        super("config.yml", Manager.getInstance(), true);
     }
 
-    public static String getKickMessage() {
-        SelfConfig config = getInstance();
-        config.reloadResource();
+    public String getKickMessage() {
+        reloadResource();
 
-        return config.getOrSetDefault("messages.kick",
+        return getOrSetDefault("messages.kick",
                 "&cYou must join through the main proxy&8!\n&eYou can connect correctly at the IP address of&8:\n\n&bplasmere.net");
+    }
+
+    @Override
+    public void init() {
+        getKickMessage();
     }
 }

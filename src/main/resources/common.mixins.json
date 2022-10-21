@@ -6,7 +6,8 @@
   "mixins": [
     "ClientConnectionAccessor",
     "ServerConfigHandlerMixin",
-    "UserCacheMixin"
+    "UserCacheMixin",
+    "startup.MinecraftServerMixin"
   ],
   "injectors": {
     "defaultRequire": 1
