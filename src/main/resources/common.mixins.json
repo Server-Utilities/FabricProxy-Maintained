@@ -7,7 +7,16 @@
     "ClientConnectionAccessor",
     "ServerConfigHandlerMixin",
     "UserCacheMixin",
-    "startup.MinecraftServerMixin"
+    "startup.MinecraftServerMixin",
+    "velocity.AcknowledgmentValidator_SkipFirstMessageValidation",
+    "velocity.MessageChain_SkipFirstMessageValidation",
+    "velocity.ServerLoginNetworkHandler_EarlySendPacket",
+    "velocity.ServerLoginNetworkHandler_SkipKeyPacket",
+    "velocity.ServerLoginNetworkHandlerMixin",
+    "velocity.SignedMessage_SkipFirstMessageValidation",
+    "velocity.core.ClientConnection_AddressAccessor",
+    "velocity.core.ServerLoginNetworkHandler_KeyCheck",
+    "velocity.core.ServerLoginNetworkHandler_ProfileAccessor"
   ],
   "injectors": {
     "defaultRequire": 1

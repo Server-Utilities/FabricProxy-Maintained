@@ -8,9 +8,8 @@ import net.minecraft.network.NetworkState;
 import net.minecraft.network.packet.c2s.handshake.HandshakeC2SPacket;
 import net.minecraft.network.packet.s2c.login.LoginDisconnectS2CPacket;
 import net.minecraft.server.network.ServerHandshakeNetworkHandler;
-import net.minecraft.text.LiteralTextContent;
-import net.minecraft.text.MutableText;
 import net.minecraft.text.Text;
+import one.oktw.FabricProxy;
 import one.oktw.interfaces.BungeeClientConnection;
 import one.oktw.mixin.ClientConnectionAccessor;
 import org.spongepowered.asm.mixin.Final;
@@ -19,9 +18,7 @@ import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-import tv.quaint.Manager;
-import tv.quaint.storage.SelfConfig;
-import tv.quaint.utils.SimpleUtils;
+import one.oktw.utils.SimpleUtils;
 
 import java.net.InetSocketAddress;
 
@@ -55,7 +52,7 @@ public class ServerHandshakeNetworkHandlerMixin {
                 }
             } else {
                 // no extra information found in the address, disconnecting player:
-                Text disconnectMessage = Text.of(SimpleUtils.alterColor(Manager.getSelfConfig().getKickMessage()));
+                Text disconnectMessage = Text.of(SimpleUtils.alterColor(FabricProxy.config.getDisconnectMessage()));
                 connection.send(new LoginDisconnectS2CPacket(disconnectMessage));
                 connection.disconnect(disconnectMessage);
             }

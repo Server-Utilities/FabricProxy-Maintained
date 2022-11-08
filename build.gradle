@@ -1,5 +1,6 @@
 plugins {
     id 'fabric-loom' version '1.0-SNAPSHOT'
+    id 'com.github.johnrengelman.shadow' version '7.1.2'
     id 'maven-publish'
 }
 
@@ -9,9 +10,6 @@ group = project.maven_group
 repositories {
     mavenLocal()
     mavenCentral()
-    flatDir {
-        dirs 'libs'
-    }
     maven { url 'https://jitpack.io' }
 }
 
@@ -21,8 +19,26 @@ dependencies {
     mappings "net.fabricmc:yarn:${project.yarn_mappings}:v2"
     modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
 
-    implementation(include(annotationProcessor('com.github.Server-Utilities:TheBase:1.0.0.0-all')))
+    // Bundle necessary Fabric API module
+    modImplementation fabricApi.module("fabric-networking-api-v1", project.fabric_version)
+    shadow fabricApi.module("fabric-api-base", project.fabric_version)
+    shadow fabricApi.module("fabric-networking-api-v1", project.fabric_version)
+
+    implementation(files("libs/TheBase.jar"))
+    shadow(files("libs/TheBase.jar"))
+    annotationProcessor(files("libs/TheBase.jar"))
     compileOnly(annotationProcessor("org.projectlombok:lombok:1.18.24"))
+}
+
+shadowJar {
+    minimize()
+    classifier("shadow")
+    configurations = [project.configurations.shadow]
+    from sourceSets.main.output
+}
+
+remapJar {
+    from zipTree(shadowJar.archiveFile) dependsOn shadowJar
 }
 
 processResources {
@@ -34,22 +50,32 @@ processResources {
 }
 
 tasks.withType(JavaCompile).configureEach {
-    // Minecraft 1.18 (1.18-pre2) upwards uses Java 17.
-    it.options.release = 17
+    it.options.release.set(17)
 }
 
 java {
-    // Loom will automatically attach sourcesJar to a RemapSourcesJar task and to the "build" task
-    // if it is present.
-    // If you remove this line, sources will not be generated.
     withSourcesJar()
 }
 
 jar {
     from("LICENSE") {
-        rename { "${it}_${project.archivesBaseName}"}
+        rename { "${it}_${project.archivesBaseName}" }
     }
 }
+
+// configure the maven publication
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            from components.java
+        }
+    }
+
+    // See https://docs.gradle.org/current/userguide/publishing_maven.html for information on how to set up publishing.
+    repositories {
+    }
+}
+
 
 wrapper {
     gradleVersion = "7.5.1"
